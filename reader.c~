@@ -6,7 +6,7 @@
 /*   By: jbulant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/14 00:07:57 by jbulant           #+#    #+#             */
-/*   Updated: 2017/11/15 12:42:37 by jbulant          ###   ########.fr       */
+/*   Updated: 2017/11/14 05:42:08 by jbulant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,25 @@ t_suint	atosint(const char *tetrimino)
 	size_t			i;
 
 	ret = 0;
-	c_count = 0;
+	c_count = 15;
 	i = 20;
 	while (i)
 	{
 		if (tetrimino[i - 1] == '#')
 			ret |= 1 << c_count;
 		if (tetrimino[i - 1] != '\n')
-			c_count++;
+		{
+			ft_putchar (tetrimino[i - 1]);
+			c_count--;
+		}
 		i--;
 	}
-	while (!(ret & 0x8888))
-		ret <<= 1;
-	while (!(ret & 0xF000))
-		ret <<= 4;
+	t_byte *bit = (t_byte *)&ret;
+	ft_putchar('\n');
+	ft_print_byte(bit[1]);
+	ft_print_byte(bit[0]);
+	ft_putchar('\n');
+	ft_putchar('\n');
 	return (ret);
 }
 
@@ -54,23 +59,20 @@ t_bool	buf_check(const char *buf)
 	return (TRUE);
 }
 
-void		parse(int fd)
+void	parse(int fd)
 {
-	static char		buf[BUFF_SIZE + 1];
-	static t_suint	tetri_tab[26];
-	int				ret;
-	int				i;
+	static char buf[BUFF_SIZE + 1];
+	int			ret;
 
-	i = 0;
 	while ((ret = read(fd, buf, BUFF_SIZE)) > 1)
 	{
 		buf[ret] = '\0';
 		if (!buf_check(buf))
 		{
 			ft_putstr("error\n");
-			return (NULL);
+			return ;
 		}
-		tetri_tab[i++] = atosint(buf);
+		atosint(buf);
 	}
 }
 

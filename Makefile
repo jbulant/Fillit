@@ -6,7 +6,7 @@
 #    By: jbulant <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/13 22:19:25 by jbulant           #+#    #+#              #
-#    Updated: 2017/11/14 01:10:32 by jbulant          ###   ########.fr        #
+#    Updated: 2017/11/15 10:42:40 by jbulant          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -26,7 +26,7 @@ CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 
 all: $(NAME)
 
-$(NAME): $(LIBFT)
+$(NAME): $(LIBFT) $(SRCS)
 	@$(CC) $(CFLAGS) -I$(INCLUDEPATH) $(INCLUDEPATH)$(LIBFT) $(SRCS) -o $(NAME)
 
 $(LIBFT):

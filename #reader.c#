@@ -31,6 +31,8 @@ t_suint	atosint(const char *tetrimino)
 			c_count++;
 		i--;
 	}
+	t_mask ~0b0
+		
 	while (!(ret & 0x8888))
 		ret <<= 1;
 	while (!(ret & 0xF000))

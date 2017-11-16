@@ -6,7 +6,7 @@
 /*   By: jbulant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/14 00:07:57 by jbulant           #+#    #+#             */
-/*   Updated: 2017/11/16 06:56:23 by jbulant          ###   ########.fr       */
+/*   Updated: 2017/11/16 22:47:01 by jbulant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,41 @@ t_bool	buf_check(const char *buf)
 	return (TRUE);
 }
 
-void		parse(int fd)
+unsigned long	sui_to_ul(t_suint mino)
+{
+	unsigned long ul_mino;
+	unsigned long mask;
+
+	ul_mino = (unsigned long)mino;
+	ul_mino <<= 48;
+	mask = 0xFFFFFFFFFFFFFFF;
+	for (int i = 0; i < 4; i++)
+	{
+		ul_mino = (ul_mino & ~mask) | (ul_mino >> 12 & mask);
+		mask >>= 16;
+	}
+	ul_mino = (ul_mino & 0xF000F000F000F000);
+	return (ul_mino);
+}
+
+void	draw_map(t_suint *tetrimino)
+{
+//	static unsigned long map[4];
+	unsigned long current_mino;
+
+//	ft_bzero(map, 32);
+
+	for (int i = 0; i < 26; i++)
+	{
+		if (tetrimino[i] == 0)
+			break ;
+		current_mino = sui_to_ul(tetrimino[i]);
+		ft_print_ultobits(current_mino);
+		ft_putchar('\n');
+	}
+}
+
+void			parse(int fd)
 {
 	static char		buf[BUFF_SIZE + 1];
 	static t_suint	tetri_tab[26];
@@ -108,6 +142,7 @@ void		parse(int fd)
 	int				i;
 
 	i = 0;
+	ft_bzero(tetri_tab, 52);
 	while ((ret = read(fd, buf, BUFF_SIZE)) > 1)
 	{
 		buf[ret] = '\0';
@@ -118,15 +153,12 @@ void		parse(int fd)
 		}
 		tetri_tab[i++] = atosint(buf);
 	}
+	draw_map(tetri_tab);
 }
 
-int		main(int ac, const char **av)
+int				main(int ac, const char **av)
 {
 	int fd;
-	unsigned long test;
-	test = ~0b0;
-	test >>= 4;
-	ft_print_ultobits(test);
 	if (ac != 2)
 	{
 		ft_putendl(USAGE);
@@ -137,6 +169,10 @@ int		main(int ac, const char **av)
 	parse(fd);
 	return (0);
 }
+
+
+
+
 /*
 void		ft_error(t_suint r, int i, t_piece *tab)
 {

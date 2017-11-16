@@ -6,7 +6,7 @@
 /*   By: jbulant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/14 00:59:52 by jbulant           #+#    #+#             */
-/*   Updated: 2017/11/15 18:24:23 by allauren         ###   ########.fr       */
+/*   Updated: 2017/11/16 05:40:14 by jbulant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@
 #include <stdio.h>
 #include "libft/libft.h"
 #include <stdbool.h>
-typedef enum {
-			FALSE = 0,
-			TRUE
-} t_bool;
 typedef short unsigned int		t_suint;
 
 typedef struct		s_piece

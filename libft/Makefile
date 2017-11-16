@@ -6,7 +6,7 @@
 #    By: jbulant <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 16:49:28 by jbulant           #+#    #+#              #
-#    Updated: 2017/11/14 05:05:41 by jbulant          ###   ########.fr        #
+#    Updated: 2017/11/16 05:33:58 by jbulant          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -88,8 +88,8 @@ ft_basecheck.c \
 ft_get_basevalue.c \
 ft_atoi_base.c \
 ft_itoa_base.c \
-ft_print_byte.c
-
+ft_print_byte.c \
+ft_print_ultobits.c
 OBJ = ${SRCS:.c=.o}
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror

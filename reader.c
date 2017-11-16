@@ -6,7 +6,7 @@
 /*   By: jbulant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/14 00:07:57 by jbulant           #+#    #+#             */
-/*   Updated: 2017/11/15 18:30:48 by allauren         ###   ########.fr       */
+/*   Updated: 2017/11/16 06:56:23 by jbulant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,10 @@ void		parse(int fd)
 int		main(int ac, const char **av)
 {
 	int fd;
-
+	unsigned long test;
+	test = ~0b0;
+	test >>= 4;
+	ft_print_ultobits(test);
 	if (ac != 2)
 	{
 		ft_putendl(USAGE);

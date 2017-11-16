@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbulant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/14 00:59:52 by jbulant           #+#    #+#             */
-/*   Updated: 2017/11/14 05:17:43 by jbulant          ###   ########.fr       */
+/*   Created: 2017/11/09 08:11:04 by jbulant           #+#    #+#             */
+/*   Updated: 2017/11/11 23:54:28 by jbulant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
-#include <fcntl.h>
-#include <unistd.h>
 #include "libft.h"
-#define BUFF_SIZE 21
-#define USAGE "usage: ./fillit source_file"
-typedef short unsigned int		t_suint;
 
-void							parse(int fd);
-t_bool							buf_check(const char *buf);
-
-#endif
+t_bool		ft_strequ(const char *s1, const char *s2)
+{
+	return (s1 && s2 && (ft_strcmp(s1, s2) == 0) ? TRUE : FALSE);
+}

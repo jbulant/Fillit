@@ -6,39 +6,11 @@
 /*   By: jbulant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/14 00:07:57 by jbulant           #+#    #+#             */
-/*   Updated: 2017/11/16 22:47:01 by jbulant          ###   ########.fr       */
+/*   Updated: 2017/11/17 00:34:06 by jbulant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #include "fillit.h"
-
-void	set_size(t_piece *piece)
-{
-	t_suint	msk_hrz;
-	t_suint	msk_vrt;
-	int		i;
-
-	msk_hrz = 0xF;
-	msk_vrt = 0X1111;
-	//msk_vrt = 1 | 1 << 4 | 1 << 8 | 1 << 12;
-
-	i = 0;
-	while (msk_hrz & piece->value && i < 4)
-	{
-		msk_hrz >>= 4;
-		i++;
-	}
-	piece->len = i;
-	i = 0;
-	while (msk_vrt & piece->value && i < 4)
-	{
-		msk_vrt >>= 1;
-		i++;
-	}
-	piece->h = i;
-}
 
 int			is_valide(t_suint value)
 {
@@ -55,29 +27,6 @@ int			is_valide(t_suint value)
 		i++;
 	}
 	return (FALSE);
-}
-t_suint	atosint(const char *tetrimino)
-{
-	t_suint			 ret;
-	unsigned int	c_count;
-	size_t			i;
-
-	ret = 0;
-	c_count = 0;
-	i = 20;
-	while (i)
-	{
-		if (tetrimino[i - 1] == '#')
-			ret |= 1 << c_count;
-		if (tetrimino[i - 1] != '\n')
-			c_count++;
-		i--;
-	}
-	while (!(ret & 0x8888))
-		ret <<= 1;
-	while (!(ret & 0xF000))
-		ret <<= 4;
-	return (ret);
 }
 
 t_bool	buf_check(const char *buf)
@@ -100,36 +49,17 @@ t_bool	buf_check(const char *buf)
 	return (TRUE);
 }
 
-unsigned long	sui_to_ul(t_suint mino)
-{
-	unsigned long ul_mino;
-	unsigned long mask;
-
-	ul_mino = (unsigned long)mino;
-	ul_mino <<= 48;
-	mask = 0xFFFFFFFFFFFFFFF;
-	for (int i = 0; i < 4; i++)
-	{
-		ul_mino = (ul_mino & ~mask) | (ul_mino >> 12 & mask);
-		mask >>= 16;
-	}
-	ul_mino = (ul_mino & 0xF000F000F000F000);
-	return (ul_mino);
-}
-
-void	draw_map(t_suint *tetrimino)
+void	draw_map(t_piece *tetrimino)
 {
 //	static unsigned long map[4];
-	unsigned long current_mino;
 
 //	ft_bzero(map, 32);
 
 	for (int i = 0; i < 26; i++)
 	{
-		if (tetrimino[i] == 0)
+		if (tetrimino[i].value == 0)
 			break ;
-		current_mino = sui_to_ul(tetrimino[i]);
-		ft_print_ultobits(current_mino);
+		ft_print_ultobits(tetrimino[i].mask);
 		ft_putchar('\n');
 	}
 }
@@ -137,12 +67,14 @@ void	draw_map(t_suint *tetrimino)
 void			parse(int fd)
 {
 	static char		buf[BUFF_SIZE + 1];
-	static t_suint	tetri_tab[26];
+	static t_piece	tetri_tab[26];
 	int				ret;
 	int				i;
 
 	i = 0;
-	ft_bzero(tetri_tab, 52);
+	while (i < 26)
+		tetri_tab[i++].value = 0;
+	i = 0;
 	while ((ret = read(fd, buf, BUFF_SIZE)) > 1)
 	{
 		buf[ret] = '\0';
@@ -151,7 +83,7 @@ void			parse(int fd)
 			ft_putstr("error\n");
 			return ;
 		}
-		tetri_tab[i++] = atosint(buf);
+		tetri_tab[i++] = create_piece(buf);
 	}
 	draw_map(tetri_tab);
 }
